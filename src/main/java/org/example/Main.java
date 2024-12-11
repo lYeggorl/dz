@@ -1,4 +1,5 @@
 package org.example;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -6,11 +7,11 @@ public class Main {
         checkSumSign(10, 4);
         printColor(0);
         compareNumbers(1,1);
-        trueOrFalse(10, 15);
+        System.out.println(trueOrFalse(10, 15));
         NegativePositiveNumber(-10);
-        blalsa(0);
+        System.out.println(blalsa(0));
         cycle("String", 6);
-        year(2024);
+        System.out.println(year(2024));
         list();
         listDo100();
         mult();
@@ -48,15 +49,13 @@ public class Main {
         }
     }
 
-    public static void trueOrFalse(int a, int b) {
-        int c = a + b;
-        boolean result;
+    public static boolean trueOrFalse(int f, int s) {
+        int c = f + s;
         if (c > 10 && c <= 20) {
-            result = true;
+            return true;
         } else {
-            result = false;
+            return false;
         }
-        System.out.println(result);
     }
 
     public static void NegativePositiveNumber(int num) {
@@ -67,14 +66,12 @@ public class Main {
         }
     }
 
-    public static void blalsa(int a) {
-        boolean result;
+    public static boolean blalsa(int a) {
         if (a >= 0) {
-            result = false;
+            return true;
         } else {
-            result = true;
+            return false;
         }
-        System.out.println(result);
     }
 
     public static void cycle(String string, int len) {
@@ -83,14 +80,12 @@ public class Main {
         }
     }
 
-    public static void year(int year) {
-        boolean isYearLeap;
+    public static boolean year(int year) {
         if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) {
-            isYearLeap = true;
+            return true;
         } else {
-            isYearLeap = false;
+            return false;
         }
-        System.out.println(isYearLeap);
     }
 
     public static void list() {
@@ -108,10 +103,10 @@ public class Main {
     }
 
     public static void listDo100() {
-        int[] arr = new int[101];
-        for (int i = 0; i < 101; i++) {
-            arr[i] = i;
-            System.out.print(arr[i] + " ");
+        int[] arr = new int[100];
+        for (int i = 1; i < 101; i++) {
+            arr[i-1] = i;
+            System.out.print(arr[i - 1] + " ");
         }
         System.out.println();
     }
@@ -148,12 +143,12 @@ public class Main {
         }
     }
 
-    public static void generator(int len, int initialValue) {
+    public static int[] generator(int len, int initialValue) {
         int [] arr = new int[len];
         for (int i = 0; i < len; i++) {
             arr[i] = initialValue;
-            System.out.print(arr[i]+ " ");
         }
-        System.out.println();
+        System.out.println(Arrays.toString(arr));
+        return arr;
     }
 }
