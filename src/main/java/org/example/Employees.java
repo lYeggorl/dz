@@ -1,20 +1,38 @@
 package org.example;
 
 public class Employees {
-    private String name;
-    private String position;
-    private String email;
-    private String phone;
-    private int salary;
-    private int age;
-    public Employees(String _name, String _position, String _email, String _phone, int _salary, int _age) {
-        name = _name;
-        position = _position;
-        email = _email;
-        phone = _phone;
-        salary = _salary;
-        age = _age;
+    public String name;
+    public String position;
+    public String email;
+    public String phone;
+    public int salary;
+    public int age;
+    public Employees(String name, String position, String email, String phone, int salary, int age) {
+        this.name = name;
+        this.position = position;
+        this.email = email;
+        this.phone = phone;
+        this.salary = salary;
+        this.age = age;
+    }
 
-            }
+    public String getName() {
+        return name;
+    }
+    public String getPosition() {
+        return position;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getPhone() {
+        return phone;
+    }
+    public int getSalary() {
+        return salary;
+    }
+    public int getAge() {
+        return age;
+    }
 }
 
