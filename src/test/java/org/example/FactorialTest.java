@@ -31,4 +31,11 @@ public class FactorialTest {
         System.out.println("Test 2");
         Assertions.assertEquals(120 , Factorial.factorial(4));
     }
+    @Tag("Не Пройдёт")
+    @Test
+    void testFactorialTree()
+    {
+        System.out.println("Test 3");
+        assertNull(Factorial.factorial(null));
+    }
 }
