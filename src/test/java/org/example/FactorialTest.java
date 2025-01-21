@@ -1,10 +1,6 @@
 package org.example;
 
-import org.testng.Assert;
 import org.testng.annotations.*;
-
-import javax.sql.DataSource;
-
 import static org.testng.Assert.*;
 
 public class FactorialTest {
@@ -23,5 +19,11 @@ public class FactorialTest {
     void testFactorialTwo() {
         System.out.println("Test 2");
         assertEquals(Factorial.factorial(8), 120);
+    }
+    @org.testng.annotations.Test
+    void testFactorialTree()
+    {
+        System.out.println("Test 3");
+        assertNull(Factorial.factorial(null));
     }
 }
