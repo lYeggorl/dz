@@ -20,8 +20,7 @@ public class FactorialTest {
     }
 
     @org.testng.annotations.Test
-    void testFactorialTwo()
-    {
+    void testFactorialTwo() {
         System.out.println("Test 2");
         assertEquals(Factorial.factorial(8), 120);
     }
