@@ -31,7 +31,7 @@ public class FactorialTest {
         System.out.println("Test 2");
         Assertions.assertEquals(120 , Factorial.factorial(4));
     }
-    @Tag("Не Пройдёт")
+    @Tag("Пройдёт")
     @Test
     void testFactorialTree()
     {
