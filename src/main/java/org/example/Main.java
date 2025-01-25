@@ -1,73 +1,86 @@
 package org.example;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import java.util.concurrent.TimeUnit;
+
+
 public class Main {
-    public static int CalculateSumOf2DArray(String [][] ar) throws MyArraySizeException, MyArrayDataException {
-        if (ar.length != 4) {
-            throw new MyArraySizeException("Неверный размер массива: должно быть 4 строки.");
-        }
+    public static void main(String[] args) {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver(options);
 
-        int sum = 0;
-        for (int i = 0; i < ar.length; ++i) {
-            int rowSize = ar[i].length;
-            if (rowSize != 4) {
-                throw new MyArraySizeException("Неверный размер массива: должно быть 4 столбца.");
+        driver.get("http://mts.by");
+
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+
+        driver.findElement(By.xpath("//*[@id=\"cookie-agree\"]")).click();
+
+        try {
+            try {
+                driver.findElement(By.xpath("//*[contains(text(), 'Онлайн пополнение')]")); // Онлайн пополнение без комиссии задание 1
+                System.out.println("Надпись : 'Онлайн пополнение без комиссии' на месте");
+            } catch (Exception e) {
+                System.out.println("Нет надписи : Онлайн пополнение без комиссии" + e.getMessage());
             }
-            for (int j = 0; j < rowSize; ++j) {
-                try {
-                    sum += Integer.parseInt(ar[i][j]);
-                } catch (NumberFormatException e) {
-                    throw new MyArrayDataException(
-                            String.format("Ошибка в данных массива на позиции %d %d: %s не является числом.", i, j, ar[i][j])
-                    );
-                }
+            try { // проверка наличия иконки банка 1. задание 2
+                driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[1]/img"));
+            } catch (Exception e) {
+                System.out.println("Нет иконки 1: " + e.getMessage());
             }
+            try { // проверка наличия иконки банка 2. задание 2
+                driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[2]/img"));
+            } catch (Exception e) {
+                System.out.println("Нет иконки 2: " + e.getMessage());
+            }
+            try { // проверка наличия иконки банка 3. задание 2
+                driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[3]/img"));
+            } catch (Exception e) {
+                System.out.println("Нет иконки 3: " + e.getMessage());
+            }
+            try { // проверка наличия иконки банка 4. задание 2
+                driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[4]/img"));
+            } catch (Exception e) {
+                System.out.println("Нет иконки 4: " + e.getMessage());
+            }
+            try { // проверка наличия иконки банка 5. задание 2
+                driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/div[2]/ul/li[5]/img"));
+            } catch (Exception e) {
+                System.out.println("Нет иконки 5: " + e.getMessage());
+            }
+        } catch (Exception e) {
+        } finally {
+            System.out.println("Все иконки присутствуют");
         }
-        return sum;
-    }
+        try { //"подробнее о сервисе" задание 3
+            driver.findElement(By.xpath("//*[@id=\"pay-section\"]/div/div/div[2]/section/div/a")).click();
 
-    public static void test1() {
-        String [][] ar = {{"123"},{"1","2"},{"3","4"}};
+            driver.findElement(By.xpath("/html/body/div[6]/main/div/div[4]/h3[1]"));
+            System.out.println("'подробнее о сервисе' работает");
+
+            driver.navigate().back(); //загружается долго
+        } catch (Exception e) {
+            System.out.println("подробнее о сервисе не работает" + e.getMessage());
+        }
         try {
-            int sum = CalculateSumOf2DArray(ar);
-            System.out.printf("Сумма равна: %d%n", sum);
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+            driver.findElement(By.xpath("//*[@id=\"connection-phone\"]")).click();
+            driver.findElement(By.xpath("//*[@id=\"connection-phone\"]")).sendKeys("297777777");
 
-    public static void test2() {
-        String [][] ar = {
-                {"1", "2", "3", "4"},
-                {"1", "2", "3", "4"},
-                {"1", "2", "3", "4"},
-                {"1", "2", "3", "4"}
-        };
-        try {
-            int sum = CalculateSumOf2DArray(ar);
-            System.out.printf("Сумма равна: %d%n", sum);
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+            driver.findElement(By.xpath("//*[@id=\"connection-sum\"]")).click();
+            driver.findElement(By.xpath("//*[@id=\"connection-sum\"]")).sendKeys("7");
 
-    public static void test3() {
-        String [][] ar = {
-                {"1", "2", "3", "4"},
-                {"1", "2", "@", "4"},
-                {"1", "2", "3", "4"},
-                {"1", "2", "3", "4"}
-        };
-        try {
-            int sum = CalculateSumOf2DArray(ar);
-            System.out.printf("Сумма равна: %d%n", sum);
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+            driver.findElement(By.xpath("//*[@id=\"pay-connection\"]/button")).click();
 
-    public static void  main(String[] args) {
-        test1();
-        test2();
-        test3();
+            System.out.println("Всё вообще отлично");
+        } catch (Exception e) {
+            System.out.println("Не работает" + e.getMessage());
+        } finally {
+            driver.quit();
+        }
     }
 }
