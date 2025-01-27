@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 
-import static org.junit.jupiter.api.Assertions.*;
-@DisplayName("Тест факториала на JUnit")
 
+@DisplayName("Тест факториала на JUnit")
 
 public class FactorialTest {
     @AfterEach
@@ -18,24 +17,33 @@ public class FactorialTest {
 
     @Tag("Пройдёт")
     @Test
-    void testFactorialOne()
-    {
+    void testFactorialOne() {
         System.out.println("Test 1");
         Assertions.assertEquals(120 , Factorial.factorial(5));
     }
-
-    @Tag("Не Пройдёт")
+    @Tag("Не_Пройдёт")
     @Test
-    void testFactorialTwo()
-    {
+    void testFactorialTwo() {
         System.out.println("Test 2");
         Assertions.assertEquals(120 , Factorial.factorial(4));
     }
-    @Tag("Пройдёт")
     @Test
-    void testFactorialTree()
-    {
+    void testFactorialThree() {
         System.out.println("Test 3");
-        assertNull(Factorial.factorial(null));
+        Assertions.assertEquals(Factorial.factorial(0), 1);
+    }
+    @Test
+    void testFactorialFour() {
+        System.out.println("Test 4");
+        Assertions.assertEquals(Factorial.factorial(1), 1);
+    }
+    @Test
+    void testFactorialFive() {
+        System.out.println("Test 5");
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Factorial.factorial(-6);
+        });
+        Assertions.assertEquals("Нельзя вычислить факториал отрицательного числа", exception.getMessage());
+        System.out.println("Нельзя вычислить факториал отрицательного числа");
     }
 }
