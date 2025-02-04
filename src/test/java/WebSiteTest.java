@@ -1,17 +1,20 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 
 
 public class WebSiteTest {
@@ -63,11 +66,12 @@ public class WebSiteTest {
     By frameCheckImagineVisa = By.xpath("//img[@src=\"assets/images/payment-icons/card-types/visa-system.svg\"]");
     By frameCheckImagineMasterCard = By.xpath("//img[@src=\"assets/images/payment-icons/card-types/mastercard-system.svg\"]");
     By frameCheckImagineBelcard = By.xpath("//img[@src=\"assets/images/payment-icons/card-types/belkart-system.svg\"]");
-    By frameCheckImagineMaestro = By.xpath("//div[@class=\"cards-brands cards-brands_random ng-tns-c61-0 ng-star-inserted\"]//img[@src=\"assets/images/payment-icons/card-types/maestro-system.svg\"]");
-    By frameCheckImagineMir = By.xpath("//div[@class=\"cards-brands cards-brands_random ng-tns-c61-0 ng-star-inserted\"]/img[@src=\"assets/images/payment-icons/card-types/mir-system-ru.svg\"]");
+    By frameCheckImagineMaestro = By.xpath("//img[@src=\"assets/images/payment-icons/card-types/maestro-system.svg\"]");
+    By frameCheckImagineMir = By.xpath("//img[@src=\"assets/images/payment-icons/card-types/mir-system.svg\"]");
 
     By phoneNumberInFrame = By.xpath("//div[@class=\"pay-description__text\"]/span[text()]");
 
+    private WebDriverWait wait;
 
     WebDriver driver;
     @BeforeClass
@@ -76,7 +80,7 @@ public class WebSiteTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("http://mts.by");
         driver.findElement(cookieClose).click();
@@ -88,6 +92,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 1)
+    @Description("Проверка названия блока")
+    @Severity(SeverityLevel.NORMAL)
     public void testBlockName(){
         String BlockNameIn = driver.findElement(blockName).getText();
         String expectedResult = "Онлайн пополнение\n" +
@@ -96,13 +102,14 @@ public class WebSiteTest {
     }
 
     @Test(priority = 2)
+    @Description("Проверка изображений банков")
+    @Severity(SeverityLevel.NORMAL)
     public void testBankImgs() {
         driver.findElement(bankImagineVisa);
         driver.findElement(bankImagineVerifiedByVisa);
         driver.findElement(bankImagineMasterCard);
         driver.findElement(bankImagineMasterCardSecureCode);
         driver.findElement(bankImagineBelcard);
-
         List<WebElement> childElements = driver.findElements(checkNumberOfBankElements);
         int childElementsCount = childElements.size();
         int expectedCount = 5;
@@ -111,6 +118,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 3)
+    @Description("Проверка ссылки 'Подробнее о сервисе'")
+    @Severity(SeverityLevel.NORMAL)
     public void testMoreAboutService() {
         String checkLinkName = driver.findElement(moreAboutService).getText();
         String expectedText = "Подробнее о сервисе";
@@ -123,6 +132,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 4)
+    @Description("Проверка плейсхолдеров для услуг связи")
+    @Severity(SeverityLevel.NORMAL)
     public void testPlaceHoldersConnectionPhone(){
         driver.findElement(selectWrapper).click();
         driver.findElement(switchToConnectionPhone).click();
@@ -132,6 +143,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 5)
+    @Description("Проверка плейсхолдеров для домашнего интернета")
+    @Severity(SeverityLevel.NORMAL)
     public void testPlaceHoldersInternetPhone(){
         driver.findElement(selectWrapper).click();
         driver.findElement(switchToInternetPhone).click();
@@ -141,6 +154,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 6)
+    @Description("Проверка плейсхолдеров для рассрочки")
+    @Severity(SeverityLevel.NORMAL)
     public void testPlaceHoldersScoreInstalment(){
         driver.findElement(selectWrapper).click();
         driver.findElement(switchToScoreInstalment).click();
@@ -150,6 +165,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 7)
+    @Description("Проверка плейсхолдеров для Задолженности")
+    @Severity(SeverityLevel.NORMAL)
     public void testPlaceHoldersScoreArrears(){
         driver.findElement(selectWrapper).click();
         driver.findElement(switchToScoreArrears).click();
@@ -159,6 +176,8 @@ public class WebSiteTest {
     }
 
     @Test(priority = 8)
+    @Description("Заполнение полей для перехода в новый фрейм")
+    @Severity(SeverityLevel.NORMAL)
     public void testPayWrapper(){
         driver.findElement(selectWrapper).click();
         driver.findElement(switchToConnectionPhone).click();
@@ -170,8 +189,10 @@ public class WebSiteTest {
     }
 
     @Test(priority = 9)
+    @Description("Проверка текста в строках заполнения карты")
+    @Severity(SeverityLevel.NORMAL)
     public void testFieldsInFrame() {
-
+        driver.switchTo().frame(driver.findElement(frameXpath));
         String cardNumText = driver.findElement(frameCheckCardNumText).getText();
         Assert.assertEquals(cardNumText, "Номер карты");
         String cardDateText = driver.findElement(frameCheckCardDateText).getText();
@@ -183,8 +204,10 @@ public class WebSiteTest {
     }
 
     @Test(priority = 10)
+    @Description("Проверка корректрности суммы в шапке фрейма")
+    @Severity(SeverityLevel.NORMAL)
+    @Attachment
     public void testSumInFrame() {
-        driver.switchTo().frame(driver.findElement(frameXpath));
         if (driver.findElement(frameCheckSum) != null) {
             String stringSum = driver.findElement(frameCheckSum).getText();
             Assert.assertEquals(stringSum, sum + ".00 BYN");
@@ -192,25 +215,49 @@ public class WebSiteTest {
     }
 
     @Test(priority = 11)
+    @Description("Проверка корректрности суммы в кнопке фрейма")
+    @Severity(SeverityLevel.NORMAL)
     public void testSumInButton() {
         String stringButtonSum = driver.findElement(frameCheckSumOnButton).getText();
         Assert.assertEquals(stringButtonSum,  "Оплатить " + sum + ".00 BYN");
     }
 
     @Test(priority = 12)
+    @Description("Проверка иконок банков во фрейме")
+    @Severity(SeverityLevel.NORMAL)
+    @Step
     public void testBankImgsInFrame() {
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(frameCheckImagineVisa);
         driver.findElement(frameCheckImagineMasterCard);
         driver.findElement(frameCheckImagineBelcard);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(frameCheckImagineMaestro));
         driver.findElement(frameCheckImagineMaestro);
-        driver.findElement(frameCheckImagineMir);
+        while (true) {
+            wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(frameCheckImagineMir)));
+            boolean isElementPresent = isElementExists(driver, frameCheckImagineMir);
+            if (isElementPresent) {
+                break;
+            }
+        }
     }
 
     @Test(priority = 13)
+    @Description("Проверка корректрности номера телефона во фрейме")
+    @Severity(SeverityLevel.NORMAL)
     public void testPhoneNumberInFrame() {
         String stringWithPhoneNumber = driver.findElement(phoneNumberInFrame).getText();
-        Assert.assertEquals(stringWithPhoneNumber,  "Оплата: Услуги связи Номер:375"+phoneNumber);
+        Assert.assertEquals(stringWithPhoneNumber,  "Оплата: Услуги связи Номер:375" + phoneNumber);
+    }
 
+    private static boolean isElementExists(WebDriver driver, By xpath) {
+        try {
+            WebElement element = driver.findElement(xpath);
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 
